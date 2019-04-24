@@ -1,4 +1,68 @@
-host = "localhost"
-user = "user_name"
-password = "Your_password"
-db_name = "OpenFoodFacts"
+db_config = {
+  'host': '127.0.0.1',
+  'user': 'Pure_beurre',
+  'password': 'p5OC',
+  'database': 'OpenFoodFacts',
+  'raise_on_warnings': True
+}
+
+TABLES = {}
+TABLES['store'] = (
+    "CREATE TABLE IF NOT EXISTS stores ( \
+        id INT AUTO_INCREMENT NOT NULL, \
+        store VARCHAR(50) NOT NULL, \
+        PRIMARY KEY (id) ) \
+    ENGINE=InnoDB"
+    )
+
+TABLES['categories'] = (
+    "CREATE TABLE IF NOT EXISTS categories ( \
+        id INT AUTO_INCREMENT NOT NULL, \
+        categorie VARCHAR(50) NOT NULL, \
+        PRIMARY KEY (id) \
+        ) \
+    ENGINE=InnoDB;"
+    )
+
+TABLES['products'] = (
+    "CREATE TABLE IF NOT EXISTS products ( \
+        id BIGINT AUTO_INCREMENT NOT NULL, \
+        product_name VARCHAR(50) NOT NULL, \
+        generic_name VARCHAR(50) NOT NULL, \
+        brands VARCHAR(50) NOT NULL, \
+        url VARCHAR(255) NOT NULL, \
+        nutrition_grades CHAR(1) NOT NULL, \
+        allergens VARCHAR(255) NOT NULL, \
+        PRIMARY KEY (id) \
+        ) \
+    ENGINE=InnoDB;"
+    )
+
+TABLES['substitutes'] = (
+    "CREATE TABLE IF NOT EXISTS substitutes ( \
+        id BIGINT AUTO_INCREMENT NOT NULL, \
+        Products_id BIGINT NOT NULL, \
+        alternative BIGINT NOT NULL, \
+        PRIMARY KEY (id) \
+        ) \
+    ENGINE=InnoDB;"
+    )
+
+
+TABLES['products_categories'] = (
+    "CREATE TABLE IF NOT EXISTS products_categories ( \
+        product_id BIGINT NOT NULL, \
+        category_id INT NOT NULL, \
+        PRIMARY KEY (product_id) \
+        ) \
+    ENGINE=InnoDB;"
+    )
+
+TABLES['products_stores'] = (
+    "CREATE TABLE IF NOT EXISTS products_stores ( \
+        product_id BIGINT NOT NULL, \
+        store_id INT NOT NULL, \
+        PRIMARY KEY (product_id) \
+        ) \
+    ENGINE=InnoDB;"
+    )
