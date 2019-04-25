@@ -1,7 +1,7 @@
 db_config = {
   'host': '127.0.0.1',
   'user': 'Pure_beurre',
-  'password': 'p5OC',
+  'password': 'p5-OC',
   'database': 'OpenFoodFacts',
   'raise_on_warnings': True
 }

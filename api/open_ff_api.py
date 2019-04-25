@@ -31,5 +31,5 @@ class Open_FF_Api:
 
 
     def display_products(self, table_rows, list_headers):
-        table = columnar( table_rows, headers = list_headers )
+        table = columnar( table_rows, headers = list_headers, justify ='c' )
         print(table)
