@@ -43,7 +43,10 @@ TABLES['substitutes'] = (
         id BIGINT AUTO_INCREMENT NOT NULL, \
         Products_id BIGINT NOT NULL, \
         alternative BIGINT NOT NULL, \
-        PRIMARY KEY (id) \
+        PRIMARY KEY (id), \
+        ADD CONSTRAINT products_substitutes_fk, \
+        FOREIGN KEY (Products_id), \
+        REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
     )
@@ -54,6 +57,12 @@ TABLES['products_categories'] = (
         product_id BIGINT NOT NULL, \
         category_id INT NOT NULL, \
         PRIMARY KEY (product_id) \
+        CONSTRAINT categories_products_categories_fk, \
+        FOREIGN KEY (category_id), \
+        REFERENCES categories (id), \
+        CONSTRAINT products_products_categories_fk, \
+        FOREIGN KEY (product_id), \
+        REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
     )
@@ -62,7 +71,13 @@ TABLES['products_stores'] = (
     "CREATE TABLE IF NOT EXISTS products_stores ( \
         product_id BIGINT NOT NULL, \
         store_id INT NOT NULL, \
-        PRIMARY KEY (product_id) \
+        PRIMARY KEY (product_id), \
+        CONSTRAINT stores_products_stores_fk, \
+        FOREIGN KEY (store_id), \
+        REFERENCES stores (id), \
+        CONSTRAINT products_products_stores_fk, \
+        FOREIGN KEY (product_id), \
+        REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
     )
