@@ -1,11 +1,18 @@
-db_config = {
+#! /usr/bin/python3
+# -*-coding: utf-8-*-
+
+
+SERVER_ACCES = {
   'host': '127.0.0.1',
   'user': 'Pure_beurre',
-  'password': 'p5-OC',
-  'database': 'OpenFoodFacts',
-  'raise_on_warnings': True
+  'password': 'Projet_5-OC'
 }
 
+DB_NAME = 'OpenFoodFacts'
+CREATE_DB = "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4' \
+                    COLLATE 'utf8mb4_unicode_ci'".format(DB_NAME)
+
+# Store table creation queries in dictionnary
 TABLES = {}
 TABLES['store'] = (
     "CREATE TABLE IF NOT EXISTS stores ( \
@@ -44,8 +51,8 @@ TABLES['substitutes'] = (
         Products_id BIGINT NOT NULL, \
         alternative BIGINT NOT NULL, \
         PRIMARY KEY (id), \
-        ADD CONSTRAINT products_substitutes_fk, \
-        FOREIGN KEY (Products_id), \
+        CONSTRAINT products_substitutes_fk \
+        FOREIGN KEY (Products_id) \
         REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
@@ -56,12 +63,12 @@ TABLES['products_categories'] = (
     "CREATE TABLE IF NOT EXISTS products_categories ( \
         product_id BIGINT NOT NULL, \
         category_id INT NOT NULL, \
-        PRIMARY KEY (product_id) \
-        CONSTRAINT categories_products_categories_fk, \
-        FOREIGN KEY (category_id), \
+        PRIMARY KEY (product_id), \
+        CONSTRAINT categories_products_categories_fk \
+        FOREIGN KEY (category_id) \
         REFERENCES categories (id), \
-        CONSTRAINT products_products_categories_fk, \
-        FOREIGN KEY (product_id), \
+        CONSTRAINT products_products_categories_fk \
+        FOREIGN KEY (product_id) \
         REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
@@ -72,11 +79,11 @@ TABLES['products_stores'] = (
         product_id BIGINT NOT NULL, \
         store_id INT NOT NULL, \
         PRIMARY KEY (product_id), \
-        CONSTRAINT stores_products_stores_fk, \
-        FOREIGN KEY (store_id), \
+        CONSTRAINT stores_products_stores_fk \
+        FOREIGN KEY (store_id) \
         REFERENCES stores (id), \
-        CONSTRAINT products_products_stores_fk, \
-        FOREIGN KEY (product_id), \
+        CONSTRAINT products_products_stores_fk \
+        FOREIGN KEY (product_id) \
         REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
