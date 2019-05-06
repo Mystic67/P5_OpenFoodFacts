@@ -19,15 +19,17 @@ class Open_FF_Api:
         for data in self.products_data:
             list_fields_name = []
             list_row =[]
-            for key, value in constants.fr_food_informations.items():
-                if value in data:
+            for key, data_key in constants.fr_food_informations.items():
+                if data_key in data:
                     if fistLoop:
                         list_fields_name.append(key)
-                    list_row.append(data[value])
+                    list_row.append(data[data_key])
 
             data_table.append(list_row)
         fistLoop = False 
-        self.display_products(data_table, list_fields_name)
+
+        print( data_table)
+        #self.display_products(data_table, list_fields_name)
 
 
     def display_products(self, table_rows, list_headers):
