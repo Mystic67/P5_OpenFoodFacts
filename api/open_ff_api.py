@@ -1,37 +1,26 @@
 #! /usr/bin/python3
 # -*-coding: utf-8-*-
 import requests
-from columnar import columnar
 import config.open_ff_settings as constants
+from views.user_displays import User_displays
 
 class Open_FF_Api:
+    '''This class connect to OpenfoodFacts API, recover the data from database and filter the data'''
     def __init__(self):
         self.categorie = constants.categories
 
-    def search_products(self, category="Viandes"):
+    def search_products(self, category=""):
+        '''Search the data from OpenFoodFacts database and return the data in json format '''
         constants.default_search_params["tag_0"]= category
         req = requests.get(constants.url, constants.default_search_params)
         data_json = req.json()
-        self.products_data = data_json['products']
+        products_data = data_json['products']
+        filtered_data = self.filter_api_data(products_data)
+        return filtered_data
 
-        fistLoop = True
-        data_table =[]
-        for data in self.products_data:
-            list_fields_name = []
-            list_row =[]
-            for key, data_key in constants.fr_food_informations.items():
-                if data_key in data:
-                    if fistLoop:
-                        list_fields_name.append(key)
-                    list_row.append(data[data_key])
-
-            data_table.append(list_row)
-        fistLoop = False 
-
-        print( data_table)
-        #self.display_products(data_table, list_fields_name)
-
-
-    def display_products(self, table_rows, list_headers):
-        table = columnar( table_rows, headers = list_headers, justify ='c' )
-        print(table)
+    def filter_api_data(self, api_data):
+        filtered_api_data =[]
+        for data in api_data:
+            if all(key in data for key in constants.fr_food_informations.values()):
+                filtered_api_data.append(data)
+        return filtered_api_data
