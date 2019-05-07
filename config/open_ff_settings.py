@@ -16,10 +16,15 @@ default_search_params= {
 }
 
 #User choise
-categories=["Viande","Plats préparés","Boissons","Petit_déjeunés","Fromages"]
+categories=["Viandes","Plats préparés","Petit-déjeuners","Desserts","Fromages"]
 
 # Desired food information:
-fr_food_informations = { "Non du produit" : "product_name", "Nom générique" : "generic_name",\
-     "Marques" : "brands", "Catégories" : "categories", "Note\n(A à E)" : "nutrition_grades",\
-     "Classif.\nNova\n(1 à 4)" : "nova_groups", "Allergènes" : "allergens", 
-          "Lien Open Food Facts" : "url", "Magasin" : "stores" }
+fr_food_informations = { "Non du produit" : "product_name",
+                        "Nom générique" : "generic_name",
+                        "Marques" : "brands",
+                        "Note\n(A à E)" : "nutrition_grades",
+                        "Allergènes" : "allergens",
+                        "URL Open Food Facts" : "url",
+                        "Magasin" : "stores",
+                        "Catégories" : "categories"
+                         }
