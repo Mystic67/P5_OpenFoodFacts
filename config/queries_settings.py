@@ -2,22 +2,22 @@
 # -*-coding: utf-8-*-
 
 
-#-------------------- TABLES DATA INSERT QUERIES---------------------------
+# -------------------- TABLES DATA INSERT QUERIES---------------------------
 
-INSERT_IN_PRODUCTS= """INSERT IGNORE INTO OpenFoodFacts.products (product_name, generic_name, brands, nutrition_grades, allergens, ingredients_text_fr, url ) VALUES (%s,%s,%s,%s,%s,%s,%s) ;"""
+INSERT_IN_PRODUCTS = """INSERT IGNORE INTO OpenFoodFacts.products (product_name, generic_name, brands, nutrition_grades, allergens, ingredients_text_fr, url ) VALUES (%s,%s,%s,%s,%s,%s,%s) ;"""
 
-INSERT_IN_CATEGORIES= """INSERT IGNORE INTO OpenFoodFacts.categories (category) VALUES (%(cat)s) ;"""
+INSERT_IN_CATEGORIES = """INSERT IGNORE INTO OpenFoodFacts.categories (category) VALUES (%(cat)s) ;"""
 
-INSERT_IN_PROD_CAT= """INSERT IGNORE INTO products_categories (product_id, category_id) VALUES ( %(id_prod)s, (SELECT categories.id FROM categories WHERE category = %(cat)s ));"""
+INSERT_IN_PROD_CAT = """INSERT IGNORE INTO products_categories (product_id, category_id) VALUES ( %(id_prod)s, (SELECT categories.id FROM categories WHERE category = %(cat)s ));"""
 
-INSERT_IN_STORES= """INSERT IGNORE INTO OpenFoodFacts.stores (store) VALUES (%(store)s) ;"""
+INSERT_IN_STORES = """INSERT IGNORE INTO OpenFoodFacts.stores (store) VALUES (%(store)s) ;"""
 
-INSERT_IN_PROD_STORE= """INSERT IGNORE INTO products_stores (product_id, store_id) values ( %(id_prod)s, ( SELECT stores.id FROM stores WHERE store = %(store)s ));"""
+INSERT_IN_PROD_STORE = """INSERT IGNORE INTO products_stores (product_id, store_id) values ( %(id_prod)s, ( SELECT stores.id FROM stores WHERE store = %(store)s ));"""
 
-SAVE_SUBSTITUTE= """INSERT IGNORE INTO substitutes (product_id, substitute_id) values (%(id_prod)s, %(id_subst)s) ;"""
+SAVE_SUBSTITUTE = """INSERT IGNORE INTO substitutes (product_id, substitute_id) values (%(id_prod)s, %(id_subst)s) ;"""
 
 
-#--------------------SELECT QUERIES----------------------------------------
+# --------------------SELECT QUERIES----------------------------------------
 
 FIND_ALL_PRODUCTS_BY_CATEGORIE = """SELECT DISTINCT prod.id, product_name, generic_name, brands, nutrition_grades, allergens, category FROM OpenFoodFacts.products as prod
     INNER JOIN products_categories as prodcat
@@ -61,3 +61,17 @@ FIND_PRODUCTS_BY_ID = """SELECT DISTINCT prod.id, product_name, generic_name, br
     ORDER BY prod.id
     LIMIT %(limit)s
     OFFSET %(offset)s; """
+
+FIND_FAVORITE_BY_ID = """SELECT DISTINCT product_id, substitute_id FROM \
+    OpenFoodFacts.substitutes
+    ORDER BY substitute_id
+    LIMIT %(limit)s
+    OFFSET %(offset)s; """
+
+FIND_CATEGORY_BY_PROD_ID = """SELECT DISTINCT category FROM
+    OpenFoodFacts.categories as cat
+    INNER JOIN products_categories as prodcat
+    ON prodcat.category_id = cat.id
+    INNER JOIN products as prod
+    ON prod.id = prodcat.product_id
+    WHERE  prod.id = %(id_prod)s; """

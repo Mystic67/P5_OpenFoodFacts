@@ -1,17 +1,21 @@
 #! /usr/bin/python3
 # -*-coding: utf-8-*-
+
 import requests
 import config.open_ff_settings as constants
-from views.user_displays import User_displays
+
 
 class Open_FF_Api:
-    '''This class connect to OpenfoodFacts API, recover the data from database and filter the data'''
+    '''This class connect to OpenfoodFacts API, recover the data from
+    database and filter the data'''
+
     def __init__(self):
         self.categorie = constants.categories
 
     def search_products(self, category=""):
-        '''Search the data from OpenFoodFacts database and return the data in json format '''
-        constants.default_search_params["tag_0"]= category
+        '''Search the data from OpenFoodFacts database and return the
+        data in json format '''
+        constants.default_search_params["tag_0"] = category
         req = requests.get(constants.url, constants.default_search_params)
         data_json = req.json()
         products_data = data_json['products']
@@ -19,7 +23,7 @@ class Open_FF_Api:
         return filtered_data
 
     def filter_api_data(self, api_data):
-        filtered_api_data =[]
+        filtered_api_data = []
         for data in api_data:
             if all(key in data for key in constants.fr_food_informations.values()):
                 filtered_api_data.append(data)
