@@ -14,8 +14,6 @@ class Mysql_db:
     def __init__(self):
         self.connect = self.connection()
         self.cursor = self.connect.cursor()
-        self.create_database()
-        self.create_tables()
 
     def connection(self):
         try:
@@ -52,7 +50,6 @@ class Mysql_db:
         for data in api_data:
             list_key =[]
             list_row_values=[]
-
             for api_key in constants.fr_food_informations.values():
                 if api_key in data.keys():
                     if api_key == "categories":
@@ -61,11 +58,9 @@ class Mysql_db:
                         list_stores = data[api_key].split(",")
                     else:
                         list_row_values.append(data[api_key])
-
             # Insert product in table
             self.cursor.execute(db_data_constants.INSERT_IN_PRODUCTS,list_row_values)
             last_product_row_id = self.cursor.lastrowid
-
             # Insert categories in table
             for category in list_cat:
                 category = category.strip()
@@ -73,7 +68,6 @@ class Mysql_db:
                 self.cursor.execute(db_data_constants. INSERT_IN_CATEGORIES, {"cat" : category})
                 # Insert the id's in linking table
                 self.cursor.execute(db_data_constants.INSERT_IN_PROD_CAT, {"id_prod" :last_product_row_id , "cat" : category })
-
             # Insert stores in table
             for store in list_stores:
                 store = store.strip()
@@ -81,7 +75,6 @@ class Mysql_db:
                 self.cursor.execute(db_data_constants.INSERT_IN_STORES, {"store" : store })
                 # Insert the id's in linking table
                 self.cursor.execute(db_data_constants.INSERT_IN_PROD_STORE, {"id_prod" :last_product_row_id, "store" : store })
-
             self.connect.commit()
 
     def close_connection(self):
