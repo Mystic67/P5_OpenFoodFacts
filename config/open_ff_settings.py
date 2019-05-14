@@ -10,7 +10,7 @@ default_search_params= {
 "tag_contains_0" : "contains",
 "search_simple" : "1",
 "action" : "process",
-"page_size" : "1",
+"page_size" : "1000",
 "page" : "1",
 "json" : "1"
 }
@@ -24,6 +24,7 @@ fr_food_informations = { "Non du produit" : "product_name",
                         "Marques" : "brands",
                         "Note\n(A à E)" : "nutrition_grades",
                         "Allergènes" : "allergens",
+                        "Ingredients" : "ingredients_text_fr",
                         "URL Open Food Facts" : "url",
                         "Magasin" : "stores",
                         "Catégories" : "categories"
