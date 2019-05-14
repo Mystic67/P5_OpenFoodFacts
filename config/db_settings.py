@@ -12,6 +12,7 @@ DB_NAME = 'OpenFoodFacts'
 CREATE_DB = "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4' \
                     COLLATE 'utf8mb4_unicode_ci'".format(DB_NAME)
 
+
 # Store table creation queries in dictionnary
 TABLES = {}
 TABLES['store'] = (
@@ -39,6 +40,7 @@ TABLES['products'] = (
         brands VARCHAR(50) NOT NULL, \
         nutrition_grades CHAR(1) NOT NULL, \
         allergens VARCHAR(255) NULL, \
+        ingredients_text_fr VARCHAR(500) NOT NULL, \
         url VARCHAR(255) NOT NULL, \
         PRIMARY KEY (id) \
         ) \
@@ -48,18 +50,19 @@ TABLES['products'] = (
 TABLES['substitutes'] = (
     "CREATE TABLE IF NOT EXISTS substitutes ( \
         id BIGINT AUTO_INCREMENT NOT NULL, \
-        products_id BIGINT NOT NULL, \
-        alternative_id BIGINT NOT NULL, \
+        product_id BIGINT NOT NULL, \
+        substitute_id BIGINT NOT NULL, \
         PRIMARY KEY (id), \
-        UNIQUE KEY products_id (products_id), \
-        UNIQUE KEY alternative_id (alternative_id), \
-        CONSTRAINT products_substitutes_fk \
-        FOREIGN KEY (Products_id) \
+        UNIQUE KEY (product_id, substitute_id), \
+        CONSTRAINT product_products_id_fk \
+        FOREIGN KEY (product_id) \
+        REFERENCES products (id), \
+        CONSTRAINT substitute_products_id_fk \
+        FOREIGN KEY (substitute_id) \
         REFERENCES products (id) \
         ) \
     ENGINE=InnoDB;"
     )
-
 
 TABLES['products_categories'] = (
     "CREATE TABLE IF NOT EXISTS products_categories ( \
@@ -67,6 +70,7 @@ TABLES['products_categories'] = (
         product_id BIGINT NOT NULL, \
         category_id INT NOT NULL, \
         PRIMARY KEY (id), \
+        UNIQUE KEY (product_id, category_id), \
         CONSTRAINT categories_products_categories_fk \
         FOREIGN KEY (category_id) \
         REFERENCES categories (id), \
@@ -83,6 +87,7 @@ TABLES['products_stores'] = (
         product_id BIGINT NOT NULL, \
         store_id INT NOT NULL, \
         PRIMARY KEY (id), \
+        UNIQUE KEY (product_id, store_id), \
         CONSTRAINT stores_products_stores_fk \
         FOREIGN KEY (store_id) \
         REFERENCES stores (id), \
