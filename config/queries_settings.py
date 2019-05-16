@@ -25,9 +25,7 @@ FIND_ALL_PRODUCTS_BY_CATEGORIE = """SELECT DISTINCT prod.id, product_name, gener
     INNER JOIN categories as cat
     ON prodcat.category_id = cat.id
     WHERE cat.category like %(category)s
-    ORDER BY prod.id
-    LIMIT %(limit)s
-    OFFSET %(offset)s;"""
+    ORDER BY prod.id ;"""
 
 FIND_SUBSTITUTES_BY_ID = """SELECT DISTINCT prod.id, product_name, generic_name, brands, nutrition_grades, allergens, category FROM
     OpenFoodFacts.products as prod
@@ -43,8 +41,7 @@ FIND_SUBSTITUTES_BY_ID = """SELECT DISTINCT prod.id, product_name, generic_name,
     AND prod.nutrition_grades < (
     SELECT nutrition_grades FROM products as prod
     WHERE prod.id = %(id)s)
-    LIMIT %(limit)s
-    OFFSET %(offset)s ; """
+    AND generic_name like CONCAT('%',%(word)s,'%') ; """
 
 FIND_PRODUCTS_BY_ID = """SELECT DISTINCT prod.id, product_name, generic_name, brands, nutrition_grades, allergens, ingredients_text_fr, url, store, category FROM
     OpenFoodFacts.products as prod
@@ -58,15 +55,11 @@ FIND_PRODUCTS_BY_ID = """SELECT DISTINCT prod.id, product_name, generic_name, br
     ON sto.id = prodsto.store_id
     WHERE  prod.id = %(id)s
     AND category = COALESCE(%(category)s, category)
-    ORDER BY prod.id
-    LIMIT %(limit)s
-    OFFSET %(offset)s; """
+    ORDER BY prod.id ; """
 
 FIND_FAVORITE_BY_ID = """SELECT DISTINCT product_id, substitute_id FROM \
     OpenFoodFacts.substitutes
-    ORDER BY substitute_id
-    LIMIT %(limit)s
-    OFFSET %(offset)s; """
+    ORDER BY substitute_id; """
 
 FIND_CATEGORY_BY_PROD_ID = """SELECT DISTINCT category FROM
     OpenFoodFacts.categories as cat
@@ -74,4 +67,7 @@ FIND_CATEGORY_BY_PROD_ID = """SELECT DISTINCT category FROM
     ON prodcat.category_id = cat.id
     INNER JOIN products as prod
     ON prod.id = prodcat.product_id
-    WHERE  prod.id = %(id_prod)s; """
+    WHERE  prod.id = %(id)s; """
+
+FIND_GENERIC_WORD = """SELECT SUBSTRING((SELECT generic_name FROM products as prod
+    WHERE prod.id = %(id)s), %(startchar)s, %(endchar)s); """
