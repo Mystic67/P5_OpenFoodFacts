@@ -5,7 +5,7 @@ from requests.exceptions import ConnectionError
 import time
 from api.open_ff_api import Open_FF_Api
 from db.mysql_db import Mysql_db
-from views.user_displays import User_displays
+from views.menus_display import Menus_display
 import config.open_ff_settings as constants
 
 
@@ -21,10 +21,10 @@ def main():
     db.create_database()
     db.create_tables()
     # Initialize the menus
-    User_displays(db)
+    Menus_display(db)
 
     while main_loop:
-        main_choice = User_displays.main_choice_menu()
+        main_choice = Menus_display.main_choice_menu()
         if main_choice == "Q":
             db.close_connection()
             exit()
@@ -36,14 +36,14 @@ def main():
                 for category in constants.categories:
                     # Search data from OpenFoodFacts and insert them in local
                     # database
-                    User_displays.system_info("Api_Search")
+                    Menus_display.system_info("Api_Search")
                     data = api.search_products(category)
-                    User_displays.system_info("Table_update", category)
+                    Menus_display.system_info("Table_update", category)
                     db.insert_data_to_database(data)
             except ConnectionError:
                 print("Connection à OpenFoodFacts non disponible !")
                 time.sleep(2)
-            User_displays.system_info("Update_completed")
+            Menus_display.system_info("Update_completed")
             main_choice == 0
 
         elif main_choice == 2:
@@ -51,21 +51,21 @@ def main():
             prod_choice_id = 0
             substitute_choice_id = 0
             # Display category choice menu
-            cat_choice = User_displays.category_choice_nenu()
+            cat_choice = Menus_display.category_choice_nenu()
             if cat_choice:
                 # Display products choice menu
-                prod_choice_id = User_displays.products_choice_menu(
+                prod_choice_id = Menus_display.products_choice_menu(
                     constants.categories[cat_choice - 1])
             if prod_choice_id:
                 # Display substitutes choice menu
-                substitute_choice_id = User_displays.substitutes_choice_menu(
+                substitute_choice_id = Menus_display.substitutes_choice_menu(
                     prod_choice_id)
             if substitute_choice_id:
                 # Display comparison and save menu
-                User_displays.comparison_and_save_menu(substitute_choice_id)
+                Menus_display.comparison_and_save_menu(substitute_choice_id)
 
         else:
-            User_displays.favorites()
+            Menus_display.favorites()
 
         main_choice = 0
 
