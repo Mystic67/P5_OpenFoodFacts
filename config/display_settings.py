@@ -11,7 +11,7 @@ main_choice_text = [
 messages = {
     "Welcome": "\t\t\t\t\t\t\t\tBienvenu dans l'application Open Foods Alternatives !\t\t\t\t\t\t\t\t\t\t",
     "Main_choice": "Veuillez saisir un numéro selon les choix proposés ('Q' ou 'q' pour quitter l'application): ",
-    "Category_choice": "Veuillez saisir un numéro de categorie selon les choix proposés ('Q' ou 'q' pour revenir au menu principa): ",
+    "Category_choice": "Veuillez saisir un numéro de categorie selon les choix proposés ('Q' ou 'q' pour revenir au menu principal): ",
     "Product_choice": "Veuillez saisir le numéro d'index de l'aliment que vous souhaiter substituer ('Q' ou 'q' pour revenir au menu principal) : ",
     "Substitute_choice": "Veuillez saisir le numéro d'index de l'aliment de substitition à comparer ('Q' ou 'q' pour revenir au menu principal) : ",
     "Save_substitute": "Souhaitez-vous enregistrer l'aliment et son substitut dans vos favoris ? ('Oui' pour enregistrer/ Q pour revenir au menu principal ) : ",
@@ -25,7 +25,7 @@ text_menus = {
     "Category_choice": "          Choix de catégorie.         ",
     "Food_choice": "    Choix de l'aliment à substituer   ",
     "Substitute_choice": "  Choix d'un aliment de substitution  ",
-    "product_comparison": "Comparatif des aliments/Enregistrement",
+    "product_comparison": "Comparatif des aliments / Enregistrement",
     "products_saved": " Mes aliments de substitution favoris ",
 }
 
