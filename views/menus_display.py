@@ -7,10 +7,11 @@ from columnar import columnar
 import config.display_settings as display_constants
 import config.open_ff_settings as constants
 import config.queries_settings as queries_constants
+from views.display_navigation import Display_navigation
 from db.db_requests import DB_requests
 
 
-class User_displays:
+class Menus_display:
     '''This class display the selection menus of choice, \
     find chosen data in database and display them'''
 
@@ -86,18 +87,29 @@ class User_displays:
     @classmethod
     def products_choice_menu(cls, category):
         cls.category = category
-        cls.db_request.reset_offset()
-        products, counter = cls.db_request.find_products(
+        #cls.db_request.reset_offset()
+        all_products = cls.db_request.find_products(
             queries_constants.FIND_ALL_PRODUCTS_BY_CATEGORIE, None, category)
+
+        # Put products result in navigation list
+        products_navi = Display_navigation(all_products)
+        max_results = products_navi.get_max_results()
+        row = products_navi.reset_row()
+
         list_rows = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
+
         while 1:
-            list_ids = []
-            [list_ids.append(prods[0]) for prods in products]
             system('cls||clear')
             cls.message("Welcome")
-            cls.counter(counter)
+            cls.counter(max_results)
             cls.text_menu("Food_choice")
+            # Return 8 substitutes from request result
+            products = products_navi.get_products()
+            # Put the id's from displayed substitutes in list
+            list_ids = []
+            [list_ids.append(prods[0]) for prods in products]
+            # Display the products table
             cls.display_products(products, (list_rows[:6] + list_rows[9:]))
             try:
                 choice = input(
@@ -107,28 +119,24 @@ class User_displays:
                     "\n" +
                     display_constants.colours["default"] +
                     display_constants.messages['Product_choice'])
-                if str(choice.upper()) == "Q":
+                if choice.upper() == "Q":
                     choice = 0
                     return choice
                     break
-                elif choice == "+":
-                    cls.db_request.increment_page()
-                    products, counter = cls.db_request.find_products(
-                        queries_constants.FIND_ALL_PRODUCTS_BY_CATEGORIE, None, category)
-                elif choice == "-":
-                    cls.db_request.decrement_page()
-                    products, counter = cls.db_request.find_products(
-                        queries_constants.FIND_ALL_PRODUCTS_BY_CATEGORIE, None, category)
-                else:
+                elif choice == "+" and row < (max_results-1):
+                    row = products_navi.increment_row()
+
+                elif choice == "-" and row >= 1:
+                    row = products_navi.decrement_row()
+
+                elif int(choice) in list_ids:
                     choice = int(choice)
-                    if choice in list_ids:
-                        print("Vous avez choisi '{}': ".format(choice))
-                        cls.db_request.reset_offset()
-                        time.sleep(1)
-                        return choice
-                        break
-                    else:
-                        cls.message_error("ValueError")
+                    print("Vous avez choisi '{}': ".format(choice))
+                    time.sleep(1)
+                    return choice
+                    break
+                else:
+                    cls.message_error("ValueError")
             except ValueError:
                 cls.message_error("ValueError")
             time.sleep(1)
@@ -136,23 +144,39 @@ class User_displays:
     @classmethod
     def substitutes_choice_menu(cls, prod_choice_id):
         cls.prod_choice_id = prod_choice_id
-        product, counter = cls.db_request.find_products(
+        # Find products and substitutes in database
+        all_products = cls.db_request.find_products(
             queries_constants.FIND_PRODUCTS_BY_ID, prod_choice_id, cls.category)
-        cls.db_request.reset_offset()
-        substitutes, counter = cls.db_request.find_products(
+
+        all_substitutes = cls.db_request.find_substitutes(
             queries_constants.FIND_SUBSTITUTES_BY_ID, prod_choice_id, cls.category)
+        # Put products result in navigation list
+        product_navi = Display_navigation(all_products)
+        # Get only one product from result
+        product = product_navi.get_products()[0]
+        # Put substitutes result in navigation list
+        substitutes_navi = Display_navigation(all_substitutes)
+        max_results = substitutes_navi.get_max_results()
+        row = substitutes_navi.reset_row()
+
         list_rows = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
         while 1:
-            list_ids = []
-            [list_ids.append(prods[0]) for prods in substitutes]
+
             system('cls||clear')
             cls.message("Welcome")
-            cls.counter(counter)
+            cls.counter(max_results)
             cls.text_menu("Substitute_choice")
+            # Return 8 substitutes from request result
+            substitutes = substitutes_navi.get_products()
+            # Put the id's from displayed substitutes in list
+            list_ids = []
+            [list_ids.append(prods[0]) for prods in substitutes]
+            # Display the product table
             cls.separate_text("Product")
             cls.display_products(
-                [product[0][:6] + product[0][9:]], (list_rows[:6] + list_rows[9:]))
+                [product[:6] + product[9:]], (list_rows[:6] + list_rows[9:]))
+            # Display the substitutes table
             cls.separate_text("Substitute")
             cls.display_products(substitutes, (list_rows[:6] + list_rows[9:]))
             try:
@@ -163,22 +187,20 @@ class User_displays:
                     "\n" +
                     display_constants.colours["default"] +
                     display_constants.messages['Substitute_choice'])
-                if str(choice.upper()) == "Q":
+                if choice.upper() == "Q":
                     choice = 0
                     return choice
                     break
-                elif choice == "+":
-                    cls.db_request.increment_page()
-                    substitutes, counter = cls.db_request.find_products(
-                        queries_constants.FIND_SUBSTITUTES_BY_ID, prod_choice_id, cls.category)
-                elif choice == "-":
-                    cls.db_request.decrement_page()
-                    substitutes, counter = cls.db_request.find_products(
-                        queries_constants.FIND_SUBSTITUTES_BY_ID, prod_choice_id, cls.category)
+                elif choice == "+" and row < (max_results-1):
+                    print(row)
+                    row = substitutes_navi.increment_row()
+
+                elif choice == "-" and row >=1:
+                    row = substitutes_navi.decrement_row()
+
                 elif int(choice) in list_ids:
                     choice = int(choice)
                     print("Vous avez choisi '{}': ".format(choice))
-                    cls.db_request.reset_offset()
                     time.sleep(1)
                     return choice
                     break
@@ -191,10 +213,9 @@ class User_displays:
     @classmethod
     def comparison_and_save_menu(cls, substitute_id):
         cls.substitute_id = substitute_id
-        cls.db_request.reset_offset()
-        product_details, counter = cls.db_request.find_products(
+        product_details= cls.db_request.find_products(
             queries_constants.FIND_PRODUCTS_BY_ID, cls.prod_choice_id, cls.category)
-        substitute_details, counter = cls.db_request.find_products(
+        substitute_details= cls.db_request.find_products(
             queries_constants.FIND_PRODUCTS_BY_ID, substitute_id, cls.category)
 
         list_rows_names = ['Index'] + \
@@ -231,8 +252,7 @@ class User_displays:
                     choice = str(choice)
                     if choice.upper() == "OUI":
                         try:
-                            cls.db_request.save_substitute(
-                                queries_constants.SAVE_SUBSTITUTE, cls.prod_choice_id, substitute_id)
+                            cls.db_request.save_substitute(cls.prod_choice_id, substitute_id)
                             cls.message("Confim_saved", "black", "on_yellow",
                                         cls.prod_choice_id, substitute_id)
                         except BaseException:
@@ -247,21 +267,30 @@ class User_displays:
 
     @classmethod
     def favorites(cls):
-        cls.db_request.reset_offset()
-        product, substitute, counter = cls.db_request.find_favorite(
-            queries_constants.FIND_FAVORITE_BY_ID, 1)
+        # Find favorites from database
+        favorites = cls.db_request.find_all_favorites()
+        # Instance the display gavigation with result of the request
+        favorites_navi = Display_navigation(favorites, 1)
+        max_results = favorites_navi.get_max_results()
+        row = favorites_navi.reset_row()
+        # define the colums
         list_rows_names = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
         columns_name = ["  ", "Aliment substitué", "Aliment de substitution"]
+
+        #Favorites display loop
         while 1:
             system('cls||clear')
             cls.message("Welcome")
+            cls.counter(max_results)
             cls.text_menu("products_saved")
+            # Get only one favorite from result
+            product, substitute = favorites_navi.get_favorite()
             list_rows = []
             i = 0
             while i < len(list_rows_names):
                 list_rows.append(
-                    [list_rows_names[i], product[0][i], substitute[0][i]])
+                    [list_rows_names[i], product[i], substitute[i]])
                 i = i + 1
             cls.display_products(list_rows, columns_name)
             try:
@@ -276,15 +305,12 @@ class User_displays:
                 if choice.upper() == "Q":
                     return choice
                     break
-                elif choice == "+":
-                    cls.db_request.increment_page()
-                    product, substitute, counter = cls.db_request.find_favorite(
-                        queries_constants.FIND_FAVORITE_BY_ID, 1)
-                    print(counter)
-                elif choice == '-':
-                    cls.db_request.decrement_page()
-                    product, substitute, counter = cls.db_request.find_favorite(
-                        queries_constants.FIND_FAVORITE_BY_ID, 1)
+                elif choice == "+" and row < (max_results-1):
+                    row = favorites_navi.increment_row()
+
+                elif choice == '-' and row >=1:
+                    row = favorites_navi.decrement_row()
+
                 else:
                     cls.message_error("ValueError")
             except ValueError:
@@ -293,6 +319,7 @@ class User_displays:
 
     @classmethod
     def display_products(cls, list_rows, list_headers, justify='c'):
+        ''' Method to display data in a table '''
         table = columnar(list_rows, headers=list_headers, justify=justify)
         print(table)
 
