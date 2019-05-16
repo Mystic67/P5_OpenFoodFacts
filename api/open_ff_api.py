@@ -26,5 +26,6 @@ class Open_FF_Api:
         filtered_api_data = []
         for data in api_data:
             if all(key in data for key in constants.fr_food_informations.values()):
-                filtered_api_data.append(data)
+                if data['generic_name'] and data['ingredients_text_fr'] and data['stores']:
+                    filtered_api_data.append(data)
         return filtered_api_data
