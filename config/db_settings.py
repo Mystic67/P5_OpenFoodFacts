@@ -9,7 +9,9 @@ SERVER_ACCES = {
 }
 
 DB_NAME = 'OpenFoodFacts'
-CREATE_DB = "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4' \
+
+# Create DATABASE if not exists
+CREATE_DB = "CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8mb4' \
                     COLLATE 'utf8mb4_unicode_ci'".format(DB_NAME)
 
 
@@ -17,7 +19,7 @@ CREATE_DB = "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4' \
 TABLES = {}
 TABLES['store'] = (
     "CREATE TABLE IF NOT EXISTS stores ( \
-        id INT AUTO_INCREMENT NOT NULL, \
+        id INT UNSIGNED AUTO_INCREMENT, \
         store VARCHAR(50) UNIQUE NOT NULL, \
         PRIMARY KEY (id) ) \
     ENGINE=InnoDB;"
@@ -25,7 +27,7 @@ TABLES['store'] = (
 
 TABLES['categories'] = (
     "CREATE TABLE IF NOT EXISTS categories ( \
-        id INT AUTO_INCREMENT NOT NULL, \
+        id INT UNSIGNED AUTO_INCREMENT, \
         category VARCHAR(50) UNIQUE NOT NULL, \
         PRIMARY KEY (id) \
         ) \
@@ -34,8 +36,8 @@ TABLES['categories'] = (
 
 TABLES['products'] = (
     "CREATE TABLE IF NOT EXISTS products ( \
-        id BIGINT AUTO_INCREMENT NOT NULL, \
-        product_name VARCHAR(200) UNIQUE NOT NULL, \
+        id INT UNSIGNED AUTO_INCREMENT, \
+        product_name VARCHAR(150) UNIQUE NOT NULL, \
         generic_name VARCHAR(300) NOT NULL, \
         brands VARCHAR(50) NOT NULL, \
         nutrition_grades CHAR(1) NOT NULL, \
@@ -49,9 +51,9 @@ TABLES['products'] = (
 
 TABLES['substitutes'] = (
     "CREATE TABLE IF NOT EXISTS substitutes ( \
-        id BIGINT AUTO_INCREMENT NOT NULL, \
-        product_id BIGINT NOT NULL, \
-        substitute_id BIGINT NOT NULL, \
+        id INT UNSIGNED AUTO_INCREMENT, \
+        product_id INT UNSIGNED NOT NULL, \
+        substitute_id INT UNSIGNED NOT NULL, \
         PRIMARY KEY (id), \
         UNIQUE KEY (product_id, substitute_id), \
         CONSTRAINT product_products_id_fk \
@@ -66,9 +68,9 @@ TABLES['substitutes'] = (
 
 TABLES['products_categories'] = (
     "CREATE TABLE IF NOT EXISTS products_categories ( \
-        id BIGINT AUTO_INCREMENT NOT NULL, \
-        product_id BIGINT NOT NULL, \
-        category_id INT NOT NULL, \
+        id INT UNSIGNED AUTO_INCREMENT, \
+        product_id INT UNSIGNED NOT NULL, \
+        category_id INT UNSIGNED NOT NULL, \
         PRIMARY KEY (id), \
         UNIQUE KEY (product_id, category_id), \
         CONSTRAINT categories_products_categories_fk \
@@ -83,9 +85,9 @@ TABLES['products_categories'] = (
 
 TABLES['products_stores'] = (
     "CREATE TABLE IF NOT EXISTS products_stores ( \
-        id BIGINT AUTO_INCREMENT NOT NULL, \
-        product_id BIGINT NOT NULL, \
-        store_id INT NOT NULL, \
+        id INT UNSIGNED AUTO_INCREMENT, \
+        product_id INT UNSIGNED NOT NULL, \
+        store_id INT UNSIGNED NOT NULL, \
         PRIMARY KEY (id), \
         UNIQUE KEY (product_id, store_id), \
         CONSTRAINT stores_products_stores_fk \

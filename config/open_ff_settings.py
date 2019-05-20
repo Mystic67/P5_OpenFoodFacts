@@ -31,6 +31,6 @@ fr_food_informations = {"Non du produit": "product_name",
                         "Allergènes": "allergens",
                         "Ingredients": "ingredients_text_fr",
                         "URL Open Food Facts": "url",
-                        "Magasin": "stores",
+                        "Magasins": "stores",
                         "Catégories": "categories"
                         }
