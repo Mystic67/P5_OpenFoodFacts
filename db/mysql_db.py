@@ -69,7 +69,10 @@ class Mysql_db:
                     elif api_key == "stores":
                         list_stores = data[api_key].split(",")
                     else:
-                        list_row_values.append(data[api_key])
+                        if api_key == "nutrition_grades":
+                            list_row_values.append(data[api_key].upper())
+                        else:
+                            list_row_values.append(data[api_key])
             # Insert product in table
             self.cursor.execute(
                 db_data_constants.INSERT_IN_PRODUCTS,
