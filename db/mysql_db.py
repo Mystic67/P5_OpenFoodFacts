@@ -60,7 +60,6 @@ class Mysql_db:
 
     def insert_data_to_database(self, api_data):
         for data in api_data:
-            list_key = []
             list_row_values = []
             for api_key in constants.fr_food_informations.values():
                 if api_key in data.keys():

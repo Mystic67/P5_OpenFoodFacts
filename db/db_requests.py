@@ -5,8 +5,8 @@ import config.queries_settings as queries_constants
 
 
 class DB_requests:
-    """This class contains method to find the products and favorites in
-    database, allow to flip through the result pages and save the substitutes  """
+    """This class contains methods to find the products and favorites and save the substitutes in database """
+
     def __init__(self, db_instance):
         self.db = db_instance
 
@@ -15,18 +15,21 @@ class DB_requests:
         result = self.db.cursor.fetchall()
         return result
 
-    def find_substitutes(self, query, id, category = None):
+    def find_substitutes(self, query, id, category=None):
         startchar = 1
         lenstring = 6
         first_loop = 0
-        while 1:
-            self.db.cursor.execute(queries_constants.FIND_GENERIC_WORD,{"id": id, "startchar" : startchar ,"lenstring" : lenstring})
+        while True:
+            self.db.cursor.execute(
+                queries_constants.FIND_GENERIC_WORD, {
+                    "id": id, "startchar": startchar, "lenstring": lenstring})
             word = self.db.cursor.fetchall()
             word1, = word[0]
-            self.db.cursor.execute(query, {"id": id, "category": category, "word" : word1})
+            self.db.cursor.execute(
+                query, {"id": id, "category": category, "word": word1})
             result = self.db.cursor.fetchall()
             print("NB résultat = ", len(result))
-            if len(result) >= 1 and len(result) <= 20 :
+            if len(result) >= 1 and len(result) <= 20:
                 break
             # If all words texted and result = 0 or > 20
             elif first_loop and len(result) >= 0:
@@ -44,7 +47,6 @@ class DB_requests:
         result = self.db.cursor.fetchall()
         favorites = []
         for prod_id, subst_id in result:
-            #print(prod_id, subst_id)
             favorites.append([self.find_products(
                 queries_constants.FIND_PRODUCTS_BY_ID, prod_id, None), self.find_products(
                     queries_constants.FIND_PRODUCTS_BY_ID, subst_id, None)])

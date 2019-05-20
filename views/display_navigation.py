@@ -1,9 +1,12 @@
 #! /usr/bin/python3
 # -*-coding: utf-8-*-
-from db.db_requests import DB_requests
+
 
 class Display_navigation:
-    def __init__(self, result, step = 8):
+    """This class takes the result of querie requests and
+    allow to navigate in data """
+
+    def __init__(self, result, step=8):
         self.result = result
         self.nb_of_results = len(result)
         self.row = 0
@@ -36,5 +39,4 @@ class Display_navigation:
 
     def get_favorite(self):
         (prod, subst) = self.result[self.row]
-        #print(prod[0],"\n\n", subst[0])
         return (prod[0], subst[0])

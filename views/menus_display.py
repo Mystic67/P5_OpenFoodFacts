@@ -122,7 +122,7 @@ class Menus_display:
                     choice = 0
                     return choice
                     break
-                elif choice == "+" and row < (max_results-1):
+                elif choice == "+" and row < (max_results - 1):
                     row = products_navi.increment_row()
 
                 elif choice == "-" and row >= 1:
@@ -154,7 +154,7 @@ class Menus_display:
         # Get only one product from result
         product = product_navi.get_products()[0]
         # Put substitutes result in navigation list
-        substitutes_navi = Display_navigation(all_substitutes,7)
+        substitutes_navi = Display_navigation(all_substitutes, 7)
         max_results = substitutes_navi.get_max_results()
         row = substitutes_navi.reset_row()
 
@@ -190,11 +190,11 @@ class Menus_display:
                     choice = 0
                     return choice
                     break
-                elif choice == "+" and row < (max_results-1):
+                elif choice == "+" and row < (max_results - 1):
                     print(row)
                     row = substitutes_navi.increment_row()
 
-                elif choice == "-" and row >=1:
+                elif choice == "-" and row >= 1:
                     row = substitutes_navi.decrement_row()
 
                 elif int(choice) in list_ids:
@@ -212,9 +212,9 @@ class Menus_display:
     @classmethod
     def comparison_and_save_menu(cls, substitute_id):
         cls.substitute_id = substitute_id
-        product_details= cls.db_request.find_products(
+        product_details = cls.db_request.find_products(
             queries_constants.FIND_PRODUCTS_BY_ID, cls.prod_choice_id)
-        substitute_details= cls.db_request.find_products(
+        substitute_details = cls.db_request.find_products(
             queries_constants.FIND_PRODUCTS_BY_ID, substitute_id)
 
         list_rows_names = ['Index'] + \
@@ -251,7 +251,8 @@ class Menus_display:
                     choice = str(choice)
                     if choice.upper() == "OUI":
                         try:
-                            cls.db_request.save_substitute(cls.prod_choice_id, substitute_id)
+                            cls.db_request.save_substitute(
+                                cls.prod_choice_id, substitute_id)
                             cls.message("Confim_saved", "black", "on_yellow",
                                         cls.prod_choice_id, substitute_id)
                         except BaseException:
@@ -276,12 +277,12 @@ class Menus_display:
             max_results = favorites_navi.get_max_results()
             row = favorites_navi.reset_row()
 
-        #define the colums
+        # define the colums
         list_rows_names = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
         columns_name = ["  ", "Aliment substitué", "Aliment de substitution"]
 
-        #Favorites display loop
+        # Favorites display loop
         while 1:
             system('cls||clear')
             cls.message("Welcome")
@@ -308,10 +309,10 @@ class Menus_display:
                 if choice.upper() == "Q":
                     return choice
                     break
-                elif choice == "+" and row < (max_results-1):
+                elif choice == "+" and row < (max_results - 1):
                     row = favorites_navi.increment_row()
 
-                elif choice == '-' and row >=1:
+                elif choice == '-' and row >= 1:
                     row = favorites_navi.decrement_row()
 
                 else:
