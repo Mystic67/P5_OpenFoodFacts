@@ -87,7 +87,6 @@ class Menus_display:
     @classmethod
     def products_choice_menu(cls, category):
         cls.category = category
-        #cls.db_request.reset_offset()
         all_products = cls.db_request.find_products(
             queries_constants.FIND_ALL_PRODUCTS_BY_CATEGORIE, None, category)
 
@@ -155,7 +154,7 @@ class Menus_display:
         # Get only one product from result
         product = product_navi.get_products()[0]
         # Put substitutes result in navigation list
-        substitutes_navi = Display_navigation(all_substitutes)
+        substitutes_navi = Display_navigation(all_substitutes,7)
         max_results = substitutes_navi.get_max_results()
         row = substitutes_navi.reset_row()
 
@@ -214,9 +213,9 @@ class Menus_display:
     def comparison_and_save_menu(cls, substitute_id):
         cls.substitute_id = substitute_id
         product_details= cls.db_request.find_products(
-            queries_constants.FIND_PRODUCTS_BY_ID, cls.prod_choice_id, cls.category)
+            queries_constants.FIND_PRODUCTS_BY_ID, cls.prod_choice_id)
         substitute_details= cls.db_request.find_products(
-            queries_constants.FIND_PRODUCTS_BY_ID, substitute_id, cls.category)
+            queries_constants.FIND_PRODUCTS_BY_ID, substitute_id)
 
         list_rows_names = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
@@ -269,11 +268,15 @@ class Menus_display:
     def favorites(cls):
         # Find favorites from database
         favorites = cls.db_request.find_all_favorites()
-        # Instance the display gavigation with result of the request
-        favorites_navi = Display_navigation(favorites, 1)
-        max_results = favorites_navi.get_max_results()
-        row = favorites_navi.reset_row()
-        # define the colums
+        if (len(favorites) == 0):
+            return 0
+        # Instance the display navigation with result of the request
+        else:
+            favorites_navi = Display_navigation(favorites, 1)
+            max_results = favorites_navi.get_max_results()
+            row = favorites_navi.reset_row()
+
+        #define the colums
         list_rows_names = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
         columns_name = ["  ", "Aliment substitué", "Aliment de substitution"]
