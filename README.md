@@ -66,7 +66,7 @@ Si vous avez besoin des droits administrateur "root", utiliser "sudo" en début 
 __________________________________________________________________________________________________________________________
 ### Installer pip3:
   ##### python3 -m pip
-  or
+  ou
   ##### python -m pip (Windows with Python3 installed)
 See more on this webpage:
 https://pip.pypa.io/en/stable/installing/
@@ -79,7 +79,7 @@ ________________________________________________________________________________
 
 ### Activer l'environnement virtuel avec une commande comme par exemple:
   ##### source env/bin/activate
-  or
+  ou
   ##### env\scripts\activate (Windows)
 See more on this webpage:
 https://virtualenv.pypa.io/en/latest/installation/
@@ -93,11 +93,11 @@ ________________________________________________________________________________
 
 ### rendez-vous au répertoire P5_OpenFooFacts avec une commande comme:
   ##### cd /path/to/P5_OpenFooFacts/
-  or
+  ou
   ##### cd \path\to\P5_OpenFooFacts\   (Windows)
 
 ### démarrer l'application avec une des commandes:
   ##### python3 open_ff_app.py
-  or
+  ou
   ##### python open_ff_app.py (Windows with Python3 installed)
 __________________________________________________________________________________________________________________________
