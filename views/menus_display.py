@@ -268,7 +268,7 @@ class Menus_display:
     @classmethod
     def favorites(cls):
         # Find favorites from database
-        favorites = cls.db_request.find_all_favorites()
+        favorites = cls.db_request.get_all_favorites()
         if (len(favorites) == 0):
             return 0
         # Instance the display navigation with result of the request
