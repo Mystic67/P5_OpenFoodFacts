@@ -148,7 +148,7 @@ class Menus_display:
             queries_constants.FIND_PRODUCTS_BY_ID, prod_choice_id, cls.category)
 
         all_substitutes = cls.db_request.find_substitutes(
-            queries_constants.FIND_SUBSTITUTES_BY_ID, prod_choice_id, cls.category)
+            queries_constants.FIND_SUBSTITUTES_FOR_ID, prod_choice_id, cls.category)
         # Put products result in navigation list
         product_navi = Display_navigation(all_products)
         # Get only one product from result

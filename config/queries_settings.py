@@ -25,10 +25,10 @@ FIND_ALL_PRODUCTS_BY_CATEGORIE = """SELECT DISTINCT prod.id, product_name, gener
     INNER JOIN categories as cat
     ON prodcat.category_id = cat.id
     WHERE cat.category like %(category)s
-    AND prod.nutrition_grades > 'a'
+    AND prod.nutrition_grades > 'B'
     ORDER BY prod.id ;"""
 
-FIND_SUBSTITUTES_BY_ID = """SELECT DISTINCT prod.id, product_name, generic_name, brands, nutrition_grades, allergens, category FROM
+FIND_SUBSTITUTES_FOR_ID = """SELECT DISTINCT prod.id, product_name, generic_name, brands, nutrition_grades, allergens, category FROM
     OpenFoodFacts.products as prod
     INNER JOIN products_categories as prodcat
     ON prodcat.product_id = prod.id
@@ -70,5 +70,5 @@ FIND_CATEGORY_BY_PROD_ID = """SELECT DISTINCT category FROM
     ON prod.id = prodcat.product_id
     WHERE  prod.id = %(id)s; """
 
-FIND_GENERIC_WORD = """SELECT SUBSTRING((SELECT generic_name FROM products as prod
-    WHERE prod.id = %(id)s), %(startchar)s, %(lenstring)s); """
+FIND_GENERIC_NAME = """SELECT generic_name FROM products as prod
+    WHERE prod.id = %(id)s; """

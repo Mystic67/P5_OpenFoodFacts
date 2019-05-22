@@ -16,31 +16,34 @@ class DB_requests:
         return result
 
     def find_substitutes(self, query, id, category=None):
-        startchar = 1
-        lenstring = 6
-        first_loop = 0
-        while True:
-            self.db.cursor.execute(
-                queries_constants.FIND_GENERIC_WORD, {
-                    "id": id, "startchar": startchar, "lenstring": lenstring})
-            word = self.db.cursor.fetchall()
-            word1, = word[0]
-            self.db.cursor.execute(
-                query, {"id": id, "category": category, "word": word1})
-            result = self.db.cursor.fetchall()
-            print("NB résultat = ", len(result))
-            if len(result) >= 1 and len(result) <= 20:
-                break
-            # If all words texted and result = 0 or > 20
-            elif first_loop and len(result) >= 0:
-                break
-            elif startchar < 290:
-                startchar = startchar + 6
-            elif startchar > 290:
-                first_loop = first_loop + 1
-                startchar = 1
-
+        key_words = self.get_key_words(id)
+        while 1:
+            for word in key_words:
+                self.db.cursor.execute(
+                    query, {"id": id, "category": category, "word": word})
+                result = self.db.cursor.fetchall()
+                if len(result) >= 1 and len(result) <= 20:
+                    break
+                # if last key_words tested and result < 1
+                elif word == key_words[-1] and len(result) < 1:
+                    word = " "
+                    self.db.cursor.execute(
+                        query, {"id": id, "category": category, "word": word})
+                    result = self.db.cursor.fetchall()
+            break
         return result
+
+    def get_key_words(self, id):
+        self.db.cursor.execute(
+            queries_constants.FIND_GENERIC_NAME, {"id": id})
+        [result] = self.db.cursor.fetchall()
+        result = result[0].split()
+        key_words = []
+        for word in result:
+            if len(word) > 3:
+                key_words.append(word)
+        return key_words
+
 
     def find_all_favorites(self):
         self.db.cursor.execute(queries_constants.FIND_FAVORITE_BY_ID)
