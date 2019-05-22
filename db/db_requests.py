@@ -44,8 +44,7 @@ class DB_requests:
                 key_words.append(word)
         return key_words
 
-
-    def find_all_favorites(self):
+    def get_all_favorites(self):
         self.db.cursor.execute(queries_constants.FIND_FAVORITE_BY_ID)
         result = self.db.cursor.fetchall()
         favorites = []
