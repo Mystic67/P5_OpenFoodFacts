@@ -62,13 +62,5 @@ FIND_FAVORITE_BY_ID = """SELECT DISTINCT product_id, substitute_id FROM \
     OpenFoodFacts.substitutes
     ORDER BY substitute_id; """
 
-FIND_CATEGORY_BY_PROD_ID = """SELECT DISTINCT category FROM
-    OpenFoodFacts.categories as cat
-    INNER JOIN products_categories as prodcat
-    ON prodcat.category_id = cat.id
-    INNER JOIN products as prod
-    ON prod.id = prodcat.product_id
-    WHERE  prod.id = %(id)s; """
-
 FIND_GENERIC_NAME = """SELECT generic_name FROM products as prod
     WHERE prod.id = %(id)s; """
