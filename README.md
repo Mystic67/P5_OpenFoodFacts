@@ -43,11 +43,13 @@ Openclassrooms Project_5 en Python3
 
 ### Installer le seveur de base de données MySQL:
 Pour utiliser  cette application il est nécessaire d'installer un serveur de base de données MySQL, puis, de définir un nom d'utilisateur ainsi que les privilèges sur votre base de données.
+exemple de commande dans la console MySQL pour créer un utilisateur:
+- CREATE USER 'nom_utilisateur'@'adresse_IP_de_mon_serveur' IDENTIFIED BY 'mon_mot_de_passe'
 
-exemple de commande dans la console mysql avec tous les privilèges:
+exemple de commande dans la console MySQL pour accorder tous les privilèges sur votre base de données à un utilisateur:
 - GRANT ALL PRIVILEGES ON mabase_de_donnees.* TO 'nom_utilisateur'@'adresse_IP_de_mon_serveur';
 
-Vous devez ensuite remplacer les valeur d'accès par défaut à la base de données par vos valeurs personnalisées.  
+Vous devez ensuite remplacer les valeur d'accès par défaut à la base de données par vos valeurs personnalisées dans le fichier config/open_ff_settings.py :
 
 SERVER_ACCES = {
   'host': 'adresse_IP_de_mon_serveur',     # L'adresse de votre serveur
@@ -68,7 +70,7 @@ ________________________________________________________________________________
   ##### python3 -m pip
   ou
   ##### python -m pip (Windows with Python3 installed)
-See more on this webpage:
+Voir page ci-dessous:
 https://pip.pypa.io/en/stable/installing/
 ___________________________________________________________________________________________________________________________
 ### Installer un environnement virtuel Python3 pip3 comme vitual par exemple:
@@ -81,7 +83,7 @@ ________________________________________________________________________________
   ##### source env/bin/activate
   ou
   ##### env\scripts\activate (Windows)
-See more on this webpage:
+Voir page ci-dessous:
 https://virtualenv.pypa.io/en/latest/installation/
 ____________________________________________________________________________________________________________________________
 ### Cloner ou télécharger l'application depuis GitHub dans le répertoire de votre environnement virtual:
