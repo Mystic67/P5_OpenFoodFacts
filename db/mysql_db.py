@@ -64,42 +64,41 @@ class Mysql_db:
             for api_key in constants.fr_food_informations.values():
                 if api_key in data.keys():
                     if api_key == "categories":
-                        list_cat = data[api_key].split(",")
+                        list_cat = [cat.strip().strip("fr:").capitalize() for cat in data[api_key].split(",")]
                     elif api_key == "stores":
-                        list_stores = data[api_key].split(",")
+                        list_stores = [store.strip().upper() for store in data[api_key].split(",")]
                     else:
                         if api_key == "nutrition_grades":
                             list_row_values.append(data[api_key].upper())
                         else:
                             list_row_values.append(data[api_key])
-            # Insert product in table
+            self.insert_in_tables(list_row_values, list_cat, list_stores)
+
+    def insert_in_tables(self, product, categories, stores):
+        # Insert product in table
+        self.cursor.execute(
+            db_data_constants.INSERT_IN_PRODUCTS,
+            product)
+        last_product_row_id = self.cursor.lastrowid
+        # Insert categories in table
+        for category in categories:
             self.cursor.execute(
-                db_data_constants.INSERT_IN_PRODUCTS,
-                list_row_values)
-            last_product_row_id = self.cursor.lastrowid
-            # Insert categories in table
-            for category in list_cat:
-                category = category.strip()
-                category = category.capitalize()
-                self.cursor.execute(
-                    db_data_constants. INSERT_IN_CATEGORIES, {
-                        "cat": category})
-                # Insert the id's in linking table
-                self.cursor.execute(
-                    db_data_constants.INSERT_IN_PROD_CAT, {
-                        "id_prod": last_product_row_id, "cat": category})
-            # Insert stores in table
-            for store in list_stores:
-                store = store.strip()
-                store = store.upper()
-                self.cursor.execute(
-                    db_data_constants.INSERT_IN_STORES, {
-                        "store": store})
-                # Insert the id's in linking table
-                self.cursor.execute(
-                    db_data_constants.INSERT_IN_PROD_STORE, {
-                        "id_prod": last_product_row_id, "store": store})
-            self.connect.commit()
+                db_data_constants. INSERT_IN_CATEGORIES, {
+                    "cat": category})
+            # Insert the id's in linking table
+            self.cursor.execute(
+                db_data_constants.INSERT_IN_PROD_CAT, {
+                    "id_prod": last_product_row_id, "cat": category})
+        # Insert stores in table
+        for store in stores:
+            self.cursor.execute(
+                db_data_constants.INSERT_IN_STORES, {
+                    "store": store})
+            # Insert the id's in linking table
+            self.cursor.execute(
+                db_data_constants.INSERT_IN_PROD_STORE, {
+                    "id_prod": last_product_row_id, "store": store})
+        self.connect.commit()
 
     def close_connection(self):
         self.connect.close()
