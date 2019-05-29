@@ -89,12 +89,10 @@ class Menus_display:
         cls.category = category
         all_products = cls.db_request.find_products(
             queries_constants.FIND_ALL_PRODUCTS_BY_CATEGORIE, None, category)
-
         # Put products result in navigation list
         products_navi = Display_navigation(all_products)
         max_results = products_navi.get_max_results()
         row = products_navi.reset_row()
-
         list_rows = ['Index'] + \
             [row for row in constants.fr_food_informations.keys()]
 
