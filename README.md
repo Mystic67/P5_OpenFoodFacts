@@ -7,9 +7,9 @@ L'application est en mode console et utilise les données de la base de données
 
 Au démarrage, l'application créé la base de données et les tables, puis affiche le menu principal pour demander un choix utilisateur.
 
-1. Mettre à jour la base de données.
-2. Rechercher un aliment de substitution
-3. Voir mes aliments de substitution favoris.
+    1. Mettre à jour la base de données.
+    2. Rechercher un aliment de substitution
+    3. Voir mes aliments de substitution favoris.
 
 
     ########################### Choix 1. ######################################
