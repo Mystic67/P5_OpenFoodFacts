@@ -102,7 +102,8 @@ class Menus_display:
             cls.counter(max_results)
             cls.text_menu("Food_choice")
             # Return 8 substitutes from request result
-            products = products_navi.get_products()
+            # Convert product list of tuple to list of list
+            products = [list(tuple) for tuple in products_navi.get_products()]
             # Put the id's from displayed substitutes in list
             list_ids = []
             [list_ids.append(prods[0]) for prods in products]
@@ -150,7 +151,7 @@ class Menus_display:
         # Put products result in navigation list
         product_navi = Display_navigation(all_products)
         # Get only one product from result
-        product = product_navi.get_products()[0]
+        product = list(product_navi.get_products()[0])
         # Put substitutes result in navigation list
         substitutes_navi = Display_navigation(all_substitutes, 7)
         max_results = substitutes_navi.get_max_results()
@@ -165,7 +166,8 @@ class Menus_display:
             cls.counter(max_results)
             cls.text_menu("Substitute_choice")
             # Return 8 substitutes from request result
-            substitutes = substitutes_navi.get_products()
+            # Convert substitute list of tuple to list of list
+            substitutes = [list(tuple) for tuple in substitutes_navi.get_products()]
             # Put the id's from displayed substitutes in list
             list_ids = []
             [list_ids.append(prods[0]) for prods in substitutes]
