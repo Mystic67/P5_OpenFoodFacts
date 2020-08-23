@@ -52,12 +52,12 @@ exemple de commande dans la console MySQL pour accorder tous les privilèges sur
 Vous devez ensuite remplacer les valeur d'accès par défaut à la base de données par vos valeurs personnalisées dans le fichier config/open_ff_settings.py :
 
 SERVER_ACCES = {
-  'host': 'adresse_IP_de_mon_serveur',     # L'adresse de votre serveur
-  'user': 'nom_utilisateur',               # Votre nom d'utilisateur
+  'host': 'adresse_IP_de_mon_serveur',     # L'adresse de votre serveur  
+  'user': 'nom_utilisateur',               # Votre nom d'utilisateur  
   'password': 'mot_de_passe'               # Votre mot de passe d'accès à la DB
 }
 
-DB_NAME = 'mabase_de_donnees'              # Le nom de votre base de données
+DB_NAME = 'mabase_de_donnees'              # Le nom de votre base de données  
 
 
 ### Installer de python3:
@@ -102,4 +102,6 @@ ________________________________________________________________________________
   ##### python3 open_ff_app.py
   ou
   ##### python open_ff_app.py (Windows with Python3 installed)
+
+  <img src= ./screenshots/Main_menu.png>
 __________________________________________________________________________________________________________________________
