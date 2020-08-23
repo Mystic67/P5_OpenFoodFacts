@@ -103,5 +103,9 @@ ________________________________________________________________________________
   ou
   ##### python open_ff_app.py (Windows with Python3 installed)
 
-  <img src= ./screenshots/Main_menu.png>
+  <img src= ./screenshots/Main_menu.png><br>
+  <img src= ./screenshots/Categorie_menu.png><br>
+  <img src= ./screenshots/Search_choice.png><br>
+  <img src= ./screenshots/Compare.png><br>
+  <img src= ./screenshots/Substitute_choice.png><br>
 __________________________________________________________________________________________________________________________
