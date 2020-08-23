@@ -107,5 +107,5 @@ ________________________________________________________________________________
   <img src= ./screenshots/Categorie_menu.png><br>
   <img src= ./screenshots/search_choice.png><br>
   <img src= ./screenshots/Compare.png><br>
-  <img src= ./screenshots/Substitute choice.png><br>
+  <img src= ./screenshots/Substitute_choice.png><br>
 __________________________________________________________________________________________________________________________
